@@ -1,7 +1,7 @@
 %define name taktuk2
 %define version 0.5
 %define pre 7
-%define release %mkrel 5
+%define release %mkrel 6
 
 Summary: 	Parallel, scalable launcher for cluster and lightweight grids
 Name: 		%{name}
@@ -14,6 +14,7 @@ Patch2:		taktuk-includes.patch
 Patch3:		taktuk-IOredir.patch
 Patch4:		taktuk-CoreTCP.patch
 Patch5:		taktuk-ldouble.patch
+Patch6:		taktuk2-0.5-ppclinux.patch
 License: 	GPL
 Group: 		Networking/Remote access
 Url: 		http://www-id.imag.fr/Logiciels/TakTuk/
@@ -64,6 +65,7 @@ This rpm allow to to graph the taktuk network using gv
 %patch3 -p0
 %patch4 -p0
 %patch5 -p0
+%patch6 -p1 -b .ppclinux
 
 %build
 aclocal
