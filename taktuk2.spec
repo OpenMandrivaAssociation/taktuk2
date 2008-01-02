@@ -18,6 +18,7 @@ Patch6:		taktuk2-0.5-ppclinux.patch
 License: 	GPL
 Group: 		Networking/Remote access
 Url: 		http://www-id.imag.fr/Logiciels/TakTuk/
+BuildRoot:	 %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:  autoconf2.1, automake
 Provides: 	parallel-tools
 
