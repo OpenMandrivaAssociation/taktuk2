@@ -1,10 +1,8 @@
-%define name taktuk2
-%define version 0.5
 %define pre 7
 
 Summary: 	Parallel, scalable launcher for cluster and lightweight grids
-Name: 		%{name}
-Version: 	%{version}
+Name: 		taktuk2
+Version: 	0.5
 Release: 	%mkrel 8
 Source0: 	%{name}_%{version}-%{pre}.tar.bz2
 Patch0: 	taktuk2-0.5.patch
@@ -14,11 +12,17 @@ Patch3:		taktuk-IOredir.patch
 Patch4:		taktuk-CoreTCP.patch
 Patch5:		taktuk-ldouble.patch
 Patch6:		taktuk2-0.5-ppclinux.patch
-License: 	GPL
+# Fix build for GCC 4.3 - AdamW 2008/07
+Patch7:		taktuk2-0.5-gcc43.patch
+# Specific and slightly modified version of the Open Public License,
+# which is not acceptable for main or contrib per Fedora license list:
+# this package must always remain in non-free unless the license is
+# changed - AdamW 2008/07
+License: 	Dyade Public License
 Group: 		Networking/Remote access
-Url: 		http://www-id.imag.fr/Logiciels/TakTuk/
+URL: 		http://www-id.imag.fr/Logiciels/TakTuk/
 BuildRoot:	 %{_tmppath}/%{name}-%{version}-%{release}-buildroot
-BuildRequires:  autoconf2.1, automake
+BuildRequires:  autoconf2.1
 Provides: 	parallel-tools
 
 %description
@@ -65,6 +69,7 @@ This rpm allow to to graph the taktuk network using gv
 %patch4 -p0
 %patch5 -p0
 %patch6 -p1 -b .ppclinux
+%patch7 -p1 -b .gcc43
 
 %build
 aclocal
@@ -75,11 +80,11 @@ autoconf
 #	--enable-debug \
 #	--enable-staticbin \
 #	--enable-static \
-make CXXFLAGS="-O3 -fpermissive"
+make CXXFLAGS="%{optflags} -fpermissive"
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%makeinstall CXXFLAGS="-O3 -fpermissive"
+%makeinstall CXXFLAGS="%{optflags} -fpermissive"
 #remove unwanted files
 rm %{buildroot}/usr/doc/AUTHORS
 rm %{buildroot}/usr/doc/CHANGES_VERSIONS
@@ -91,7 +96,7 @@ mv %{buildroot}%{_bindir}/mput %{buildroot}%{_bindir}/mput2
 mv %{buildroot}%{_bindir}/rshp %{buildroot}%{_bindir}/rshp2
 mv %{buildroot}%{_mandir}/man1/mput.1 %{buildroot}%{_mandir}/man1/mput2.1
 mv %{buildroot}%{_mandir}/man1/rshp.1 %{buildroot}%{_mandir}/man1/rshp2.1
-%multiarch_includes $RPM_BUILD_ROOT%{_includedir}/inuk/inuk_conf.h
+%multiarch_includes %{buildroot}%{_includedir}/inuk/inuk_conf.h
 
 %clean
 rm -rf $RPM_BUILD_ROOT
