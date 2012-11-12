@@ -1,0 +1,28 @@
+--- configure.ac~	2004-07-02 11:17:39.000000000 +0200
++++ configure.ac	2005-11-17 12:22:37.000000000 +0100
+@@ -125,6 +125,16 @@
+ case `uname -s` in
+   Linux)   
+     case `uname -m` in
++    x86_64)
++	AC_DEFINE(INUKTITUT_USE_LINUX)
++	AC_DEFINE(PTH_USE_PTHREAD_LINUX)
++	AC_DEFINE(SOCK_USE_LINUX)
++	AC_DEFINE(CORNET_USE_PTHREAD_LINUX)
++        AC_DEFINE(PTH_DAEMON_SCHED, SCHED_OTHER)  
++        AC_DEFINE(CORNET_DAEMON_SCHED, SCHED_OTHER)
++	compile_COR_net_CPPFLAGS="-D__x86__ -D__linux__"
++     ;;
++
+      i686)
+ 	AC_DEFINE(INUKTITUT_USE_LINUX)
+ 	AC_DEFINE(PTH_USE_PTHREAD_LINUX)
+@@ -185,7 +195,7 @@
+ dnl -------------------------------------------------------------------
+ 
+ case `uname -m` in
+-  *86)   AC_DEFINE(PTH_USE_ARCH_X86)
++  *86*)   AC_DEFINE(PTH_USE_ARCH_X86)
+ 	 AC_DEFINE(CORNET_USE_ARCH_X86)
+   ;;
+   sun*)  AC_DEFINE(PTH_USE_ARCH_SUN) 

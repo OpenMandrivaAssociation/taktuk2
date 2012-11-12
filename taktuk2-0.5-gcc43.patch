@@ -1,0 +1,10 @@
+--- taktuk2-0.5/Psocket/src/sock_basic.cpp	2004-06-29 06:32:12.000000000 -0700
++++ taktuk2-0.5/Psocket/src/sock_basic.cpp.new	2008-07-22 17:21:42.000000000 -0700
+@@ -10,6 +10,7 @@
+ // ==========================================================================
+ 
+ #include "sock_basic.h"
++#include <cstdlib>
+ #include <iostream>
+ #include <stdio.h>
+ #include <string.h>

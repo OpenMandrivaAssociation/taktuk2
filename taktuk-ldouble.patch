@@ -1,0 +1,18 @@
+--- NetworkCore/src/acom_fmtcompile.cpp~	2007-01-26 15:50:20.000000000 +0100
++++ NetworkCore/src/acom_fmtcompile.cpp	2007-01-26 15:50:52.000000000 +0100
+@@ -21,13 +21,13 @@
+   if (_iscompiled) return;
+   if (!_couldbecompiled) return;
+ 
+-  if (get_id() <= FormatDef::LDouble.get_id())
++/*  if (get_id() <= FormatDef::LDouble.get_id())
+   {
+     _iscompiled = true;
+     _iscontiguous = true;
+     return;
+   }
+-  
++*/  
+   /* to avoid infinite recursion */
+   _iscompiled   = true;
+   _iscontiguous = true;

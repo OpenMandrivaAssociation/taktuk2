@@ -1,0 +1,24 @@
+--- Taktuk/src/IOredir.cpp~	2004-06-29 15:32:12.000000000 +0200
++++ Taktuk/src/IOredir.cpp	2007-01-26 15:15:25.000000000 +0100
+@@ -219,6 +219,10 @@
+   return 1;
+ }
+ 
++ void thread_IO(IOredir* IO)
++ {
++   IO->run();
++ }
+ 
+ 
+ 
+@@ -641,10 +645,6 @@
+   dbg.log("I0redir","thread IO router terminate... never dispayed\n");
+ }
+ 
+- void thread_IO(IOredir* IO)
+- {
+-   IO->run();
+- }
+ 
+ 
+ 

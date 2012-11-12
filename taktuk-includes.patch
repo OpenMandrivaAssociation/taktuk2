@@ -1,0 +1,10 @@
+--- Pthread/src/pth_pthreadsync.h~	2007-01-26 15:03:50.000000000 +0100
++++ Pthread/src/pth_pthreadsync.h	2007-01-26 15:09:15.000000000 +0100
+@@ -23,6 +23,7 @@
+ #define _PTH_PTHREADSYNC_H
+ 
+ // the namespace identifier
++#include <bits/libc-lock.h>
+ #include <inuk/pth_ns.h>
+ #include <inuk/pth_dep.h>
+ #include <inuk/pth_macro.h>

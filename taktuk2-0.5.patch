@@ -1,0 +1,203 @@
+Only in taktuk2-0.5.patched/bin: Makefile
+Only in taktuk2-0.5.patched/config: inuk_conf.h
+Only in taktuk2-0.5.patched/config: stamp-h1
+Only in taktuk2-0.5.patched: config.log
+Only in taktuk2-0.5.patched: config.status
+Only in taktuk2-0.5.patched/include: Makefile
+Only in taktuk2-0.5.patched/lib: Makefile
+Only in taktuk2-0.5.patched: libtool
+Only in taktuk2-0.5.patched: Makefile
+Only in taktuk2-0.5.patched: Makefile~
+diff -rub taktuk2-0.5/Makefile.in taktuk2-0.5.patched/Makefile.in
+--- taktuk2-0.5/Makefile.in	2004-07-07 08:53:01.000000000 +0100
++++ taktuk2-0.5.patched/Makefile.in	2005-11-15 20:39:54.000000000 +0000
+@@ -58,7 +58,7 @@
+ CXX = @CXX@
+ CXXCPP = @CXXCPP@
+ CXXDEPMODE = @CXXDEPMODE@
+-CXXFLAGS = @CXXFLAGS@
++CXXFLAGS = @CXXFLAGS@ -fpermissive
+ CYGPATH_W = @CYGPATH_W@
+ DEFS = @DEFS@
+ DEPDIR = @DEPDIR@
+Only in taktuk2-0.5.patched: Makefile.in~
+Only in taktuk2-0.5.patched/NetworkCore: Makefile
+diff -rub taktuk2-0.5/NetworkCore/src/acom_format.cpp taktuk2-0.5.patched/NetworkCore/src/acom_format.cpp
+--- taktuk2-0.5/NetworkCore/src/acom_format.cpp	2004-06-29 14:32:12.000000000 +0100
++++ taktuk2-0.5.patched/NetworkCore/src/acom_format.cpp	2005-11-15 19:11:08.000000000 +0000
+@@ -12,6 +12,7 @@
+ */
+ namespace ACOM_NET_NAMESPACE {
+ 
++
+ void* _acom_inuk_malloc( size_t s)
+ { return malloc(s); }
+ void* _acom_inuk_calloc( size_t s1, size_t s2)
+@@ -212,7 +213,8 @@
+        (Format::f_destroy)&ByteFormat::destroy,
+        (Format::f_copy)&ByteFormat::copy
+ );
+-DECL_FORMAT(bool, FormatDef::Bool)
++
++/* DECL_FORMAT(bool, FormatDef::Bool)
+ DECL_FORMAT(char, FormatDef::Char)
+ DECL_FORMAT(unsigned char, FormatDef::UChar)
+ DECL_FORMAT(int, FormatDef::Int)
+@@ -226,7 +228,7 @@
+ DECL_FORMAT(float, FormatDef::Float)
+ DECL_FORMAT(double, FormatDef::Double)
+ DECL_FORMAT(long double, FormatDef::LDouble)
+-
++*/
+ 
+ // --------------------------------------------------------------------
+ void Format::init_format()
+Only in taktuk2-0.5.patched/NetworkCore/src: acom_format.cpp~
+diff -rub taktuk2-0.5/NetworkCore/src/acom_format.h taktuk2-0.5.patched/NetworkCore/src/acom_format.h
+--- taktuk2-0.5/NetworkCore/src/acom_format.h	2004-06-29 14:32:12.000000000 +0100
++++ taktuk2-0.5.patched/NetworkCore/src/acom_format.h	2005-11-15 17:11:46.000000000 +0000
+@@ -401,7 +401,8 @@
+ {
+   const T* ref = (const T*)val;
+   for (size_t i=0; i<count; ++i)
+-    ::operator<<(s, ref[i]);
++	  ;
++ //   ::operator<<(s, ref[i]);
+ }
+ 
+ template<class T>
+@@ -410,6 +411,7 @@
+ {
+   T* ref = (T*)val;
+   for (size_t i=0; i<count; ++i)
+-    ::operator>>(s, ref[i]);
++	  	;
++//    ::operator>>(s, ref[i]);
+ }
+ #endif
+Only in taktuk2-0.5.patched/NetworkCore/src: .deps
+Only in taktuk2-0.5.patched/NetworkCore/src: Makefile
+Only in taktuk2-0.5.patched/Psocket: Makefile
+Only in taktuk2-0.5.patched/Psocket/src: .deps
+Only in taktuk2-0.5.patched/Psocket/src: Makefile
+Only in taktuk2-0.5.patched/Pthread: Makefile
+Only in taktuk2-0.5.patched/Pthread: Makefile~
+Only in taktuk2-0.5.patched/Pthread/src: .deps
+Only in taktuk2-0.5.patched/Pthread/src: Makefile
+diff -rub taktuk2-0.5/Pthread/src/pth_basic.h taktuk2-0.5.patched/Pthread/src/pth_basic.h
+--- taktuk2-0.5/Pthread/src/pth_basic.h	2004-06-29 14:32:12.000000000 +0100
++++ taktuk2-0.5.patched/Pthread/src/pth_basic.h	2005-11-15 16:11:26.000000000 +0000
+@@ -275,7 +275,8 @@
+ template < class _CELLTYPE_ >  
+ class Queable : public Linkable<_CELLTYPE_> {
+ protected:
+-  _CELLTYPE_* _pred ;
++  _CELLTYPE_* _pred;
++  _CELLTYPE_* _next;
+ public :
+   /// Constructor
+   Queable()
+diff -rub taktuk2-0.5/Pthread/src/pth_pthreadsync.h taktuk2-0.5.patched/Pthread/src/pth_pthreadsync.h
+--- taktuk2-0.5/Pthread/src/pth_pthreadsync.h	2004-06-29 14:32:12.000000000 +0100
++++ taktuk2-0.5.patched/Pthread/src/pth_pthreadsync.h	2005-11-15 16:24:15.000000000 +0000
+@@ -555,8 +555,8 @@
+   //! @throw PosixError if it fails
+   template <class Tr , class Ta> 
+   static void create(ThreadId * thid, Tr *(*f)(Ta *),Ta* a, Kind k= DETACHED ) 
+-    throw(PosixError)
+-  { create(th, (void  *(*)(void *))f , (void *)a, k); }
++    throw(PosixError);
++//  { create(th, (void  *(*)(void *))f , (void *)a, k); }
+ 
+ 
+   //! Thread junction (posix type). 
+Only in taktuk2-0.5.patched/Pthread/src: pth_pthreadsync.h~
+Only in taktuk2-0.5.patched/Taktuk/bin: .deps
+Only in taktuk2-0.5.patched/Taktuk/bin: Makefile
+Only in taktuk2-0.5.patched/Taktuk: Makefile
+Only in taktuk2-0.5.patched/Taktuk: Makefile~
+Only in taktuk2-0.5.patched/Taktuk/man: Makefile
+Only in taktuk2-0.5.patched/Taktuk/src: .deps
+Only in taktuk2-0.5.patched/Taktuk/src: Makefile
+Only in taktuk2-0.5.patched/Taktuk/src: Makefile~
+diff -rub taktuk2-0.5/Taktuk/src/mput_buffers.cpp taktuk2-0.5.patched/Taktuk/src/mput_buffers.cpp
+--- taktuk2-0.5/Taktuk/src/mput_buffers.cpp	2004-07-20 11:28:14.000000000 +0100
++++ taktuk2-0.5.patched/Taktuk/src/mput_buffers.cpp	2005-11-15 20:27:41.000000000 +0000
+@@ -9,7 +9,7 @@
+ {
+    int i;
+    int n;
+-   buffers = new (struct buffer)[NBBUFF];
++   buffers = new struct buffer[NBBUFF];
+    for(i=0;i<NBBUFF;i++)
+    {
+       buffers[i].buffer_full = 0;
+Only in taktuk2-0.5.patched/Taktuk/src: mput_buffers.cpp~
+Only in taktuk2-0.5.patched/Taktuk/src: taktukinstall.h
+diff -rub taktuk2-0.5/Taktuk/src/taktuknetwork.h taktuk2-0.5.patched/Taktuk/src/taktuknetwork.h
+--- taktuk2-0.5/Taktuk/src/taktuknetwork.h	2004-07-28 14:48:07.000000000 +0100
++++ taktuk2-0.5.patched/Taktuk/src/taktuknetwork.h	2005-11-15 19:42:42.000000000 +0000
+@@ -163,8 +163,8 @@
+      };
+  
+  
+-  class TaktukChannel;
+-	class TaktukLocalChannel;
++//  class TaktukChannel;
++//	class TaktukLocalChannel;
+ 
+   class TaktukRequest : public acom::Network::Request, public PTH::Linkable<TaktukRequest>
+     {
+@@ -179,7 +179,7 @@
+       friend class Taktuk::Network;
+       friend class taktuk_router;
+     };
+- protected:
++ public:
+   class TaktukReceipt : public acom::Network::Receipt
+     {
+       protected :
+@@ -188,15 +188,19 @@
+ 			bool init( acom::IOVectSeq * iovs , acom::IOVectEntry * iov, size_t sz, acom::Network* net, int local_link)
+ 			{_local_link=acom::Network::LocalNodeNo(local_link); return acom::Network::Receipt::init(iovs,iov , sz,net);}
+ 			acom::Network::LocalNodeNo _local_link;
+-			acom::Network::LocalNodeNo get_reply_channelID(){
+-				return _local_link;
+-			}
++//			acom::Network::LocalNodeNo get_reply_channelID(){
++//				return _local_link;
++//			}
+       friend class TaktukChannel;
+ 			friend class TaktukLocalChannel;
+       friend class Taktuk::Network;
+       friend class taktuk_router;
+ 			friend class steal;
+ 			friend class getinfo;
++	public:	
++			acom::Network::LocalNodeNo get_reply_channelID(){
++				return _local_link;
++			}
+     };
+ 
+   /** request allocator 
+@@ -471,13 +475,17 @@
+   //perf time counter
+   timeval time_init;
+   timeval time_term; 
++ public:
++          void RefreschNetwork();
++	PTH::Mutex _LocalChannel_mut;
++	std::vector<TaktukLocalChannel*> LocalChannel; //copy of topo.info.all_links
+  private:
+ 	void InitNetwork();
+-	void RefreschNetwork();
++//	void RefreschNetwork();
+ 	int InitIO(SOCK::SocketClient** sc);
+   std::string getsub(::topology::host* _host);
+-	std::vector<TaktukLocalChannel*> LocalChannel; //copy of topo.info.all_links
+-	PTH::Mutex _LocalChannel_mut;
++	//std::vector<TaktukLocalChannel*> LocalChannel; //copy of topo.info.all_links
++	//PTH::Mutex _LocalChannel_mut;
+   bool resuming;
+   Barrier* _barrier;
+ 	IOredir* _ioredir;

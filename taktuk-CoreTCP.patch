@@ -1,0 +1,25 @@
+--- Taktuk/src/CoreTCP.cpp~	2004-06-29 15:32:12.000000000 +0200
++++ Taktuk/src/CoreTCP.cpp	2007-01-26 15:19:26.000000000 +0100
+@@ -203,6 +203,11 @@
+   //dbg.log("router","destructor [OK]\n");
+ }
+ 
++void thread_router (routertcp* router)
++{
++  router->routing();
++  --(router->join);
++}
+ int routertcp::initialize()
+ {
+   //initialize(NULL);
+@@ -539,9 +544,5 @@
+   	dbg.log("thread_router","thread router terminate...\n");
+ 	}
+ 
+-void thread_router (routertcp* router)
+-{
+-  router->routing();
+-  --(router->join);
+-}
++
+ 

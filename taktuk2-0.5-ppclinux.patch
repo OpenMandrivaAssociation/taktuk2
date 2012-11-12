@@ -1,0 +1,61 @@
+--- taktuk2-0.5/Pthread/src/pth_timer.h.bak	2004-06-29 15:32:12.000000000 +0200
++++ taktuk2-0.5/Pthread/src/pth_timer.h	2007-05-26 00:40:43.447326694 +0200
+@@ -451,17 +451,19 @@
+ 
+ inline HighResTimer::type HighResTimer::gettick()
+ {
+-#ifdef INUKTITUT_USE_DARWIN
++#if defined(INUKTITUT_USE_DARWIN) || defined(INUKTITUT_USE_LINUX)
++#ifdef __ppc__
+   register unsigned long t_u;
+   register unsigned long t_l;
+   asm volatile ("mftbu %0" : "=r" (t_u) );
+   asm volatile ("mftb %0" : "=r" (t_l) );
+   return type(t_u,t_l);
+-#elif defined(INUKTITUT_USE_LINUX)
++#elif defined(__x86__)
+   register unsigned long t_u;
+   register unsigned long t_l;
+   rdtsc( t_l, t_u );
+   return type(t_u,t_l);
++#endif
+ #elif defined(INUKTITUT_USE_IRIX)
+   struct timespec tp;
+   clock_gettime( CLOCK_SGI_CYCLE, &tp );
+--- taktuk2-0.5/configure.ac.bak	2007-05-25 23:46:53.605926491 +0200
++++ taktuk2-0.5/configure.ac	2007-05-25 23:54:48.570823451 +0200
+@@ -144,6 +144,16 @@
+         AC_DEFINE(CORNET_DAEMON_SCHED, SCHED_OTHER)
+ 	compile_COR_net_CPPFLAGS="-D__x86__ -D__linux__"
+      ;;
++
++     ppc)
++	AC_DEFINE(INUKTITUT_USE_LINUX)
++	AC_DEFINE(PTH_USE_PTHREAD_LINUX)
++	AC_DEFINE(SOCK_USE_LINUX)
++	AC_DEFINE(CORNET_USE_PTHREAD_LINUX)
++        AC_DEFINE(PTH_DAEMON_SCHED, SCHED_OTHER)  
++        AC_DEFINE(CORNET_DAEMON_SCHED, SCHED_OTHER)
++	compile_COR_net_CPPFLAGS="-D__ppc__ -D__linux__"
++     ;;
+      ia64) 
+ 	AC_DEFINE(INUKTITUT_USE_LINUX_IA64)
+      ;;
+--- taktuk2-0.5/acconfig.h.bak	2004-06-29 15:32:12.000000000 +0200
++++ taktuk2-0.5/acconfig.h	2007-05-26 00:03:15.640049894 +0200
+@@ -186,13 +186,13 @@
+ #define GETOPTRESET() getoptreset()
+ #elif defined(INUKTITUT_USE_DARWIN)
+ #define GETOPTRESET() \
+-do {                  \ 
++do {                  \
+   optind = 1;         \
+   optreset = 1;       \
+ } while (0)
+ #elif defined(INUKTITUT_USE_LINUX)
+ #define GETOPTRESET() \
+-do {                  \ 
++do {                  \
+   optind = 0;         \
+ } while (0)
+ #endif
