@@ -20,7 +20,7 @@ Patch7:		taktuk2-0.5-gcc43.patch
 # changed - AdamW 2008/07
 License: 	Dyade Public License
 Group: 		Networking/Remote access
-URL: 		http://www-id.imag.fr/Logiciels/TakTuk/
+URL: 		https://www-id.imag.fr/Logiciels/TakTuk/
 BuildRoot:	 %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:  autoconf2.1
 Provides: 	parallel-tools
