@@ -22,6 +22,10 @@ License: 	Dyade Public License
 Group: 		Networking/Remote access
 URL: 		https://www-id.imag.fr/Logiciels/TakTuk/
 BuildRoot:	 %{_tmppath}/%{name}-%{version}-%{release}-buildroot
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:  autoconf2.1
 Provides: 	parallel-tools
 
