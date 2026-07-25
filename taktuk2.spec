@@ -3,7 +3,7 @@
 Summary: 	Parallel, scalable launcher for cluster and lightweight grids
 Name: 		taktuk2
 Version: 	0.5
-Release: 	%mkrel 9
+Release: 	10
 Source0: 	%{name}_%{version}-%{pre}.tar.bz2
 Patch0: 	taktuk2-0.5.patch
 Patch1: 	taktuk2-x86_64.patch
